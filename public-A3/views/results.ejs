@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link href="../public/tailwind.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="results-header">
+        <h1>Welcome, <%= user.username %></h1>
+    </div>
+
+    <div class="block">
+        <h3 class="text-xl font-semibold mb-4">Add New Entry</h3>
+        <form action="/add" method="POST" class="add-data-form">
+            <input type="text" name="title" placeholder="Title" class="input-field" required>
+            <input type="text" name="description" placeholder="Description" class="input-field" required>
+            <input type="datetime-local" name="timestamp" class="input-field" required>
+            <button type="submit">Add Data</button>
+        </form>
+    </div>
+
+    <div class="block">
+        <h3 class="text-xl font-semibold mb-4">Your Data Entries</h3>
+        <table class="results-table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% userData.forEach(item => { %>
+                <tr>
+                     <form action="/edit/<%= item._id %>" method="POST" class="inline-block">
+                        <td><input type="text" name="title" value="<%= item.title %>" class="input-field w-auto mb-2" required></td>
+                        <td><input type="text" name="description" value="<%= item.description %>" class="input-field w-auto mb-2" required></td>
+                        <td><input type="datetime-local" name="timestamp" value="<%= item.timestamp %>" class="input-field w-auto mb-2" required></td>
+                        <td><button type="submit">Edit</button>
+                    </form>
+                    <form action="/delete/<%= item._id %>" method="POST" class="inline-block ml-2">
+                        <button type="submit">Delete</button>
+                    </form>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="block text-center mt-4">
+        <a href="/logout" class="text-blue-600 hover:text-blue-800">Logout</a>
+    </div>
+</div>
+
+</body>
+</html>
